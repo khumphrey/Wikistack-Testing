@@ -12,6 +12,14 @@ chai.use(chaiAsPromised);
 chai.use(chaiThings);
 
 describe('Page model', function () {
+  before(function () {
+    return Page.sync({ force: true });
+  });
+
+  after(function () {
+    return Page.truncate();
+  });
+
   describe('Virtuals', function () {
     let newPage;
     beforeEach(function () {
@@ -37,7 +45,7 @@ describe('Page model', function () {
   describe('Class methods', function () {
 
     beforeEach(function () {
-      return Page.sync({ force: true })
+      return Page.truncate()
         .then(() => {
           Page.create({
             title: 'YDKJS',
@@ -45,10 +53,6 @@ describe('Page model', function () {
             tags: 'JS, Closure, Infinite Loop'
           })
         })
-    });
-
-    afterEach(function () {
-      return Page.truncate();
     });
 
     describe('findByTag', function () {
@@ -67,31 +71,30 @@ describe('Page model', function () {
   describe('Instance methods', function () {
     let page1, page3;
     beforeEach(function () {
-      return Promise.all([
-          Page.create({
-            title: 'YDKJS',
-            content: 'This is the beginning of the End',
-            tags: 'JS, Closure, Infinite Loop'
-          }),
-          Page.create({
-            title: 'Cracking the Code',
-            content: 'Will the code crack you?',
-            tags: 'JS, Algorithms',
-          }),
-          Page.create({
-            title: 'AI revolution',
-            content: 'Who will rule who?',
-            tags: 'AI'
-          })
-        ])
+      return Page.truncate()
+        .then(() => {
+          Promise.all([
+            Page.create({
+              title: 'YDKJS',
+              content: 'This is the beginning of the End',
+              tags: 'JS, Closure, Infinite Loop'
+            }),
+            Page.create({
+              title: 'Cracking the Code',
+              content: 'Will the code crack you?',
+              tags: 'JS, Algorithms',
+            }),
+            Page.create({
+              title: 'AI revolution',
+              content: 'Who will rule who?',
+              tags: 'AI'
+            })
+          ])
+        })
         .then(createdPages => {
           page1 = createdPages[0];
           page3 = createdPages[2];
         });
-    });
-
-    afterEach(function () {
-      return Page.truncate();
     });
 
     describe('findSimilar', function () {

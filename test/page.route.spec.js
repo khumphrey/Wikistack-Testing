@@ -14,13 +14,17 @@ chai.use(chaiAsPromised);
 
 describe('http requests', function () {
 
-  beforeEach(function () {
+  before(function () {
     return User.sync({ force: true })
       .then(() => Page.sync({ force: true }))
   });
 
-  afterEach(function () {
-  	return Page.truncate();
+  beforeEach(function () {
+    return Page.truncate();
+  });
+  
+  after(function () {
+    return Page.truncate();
   });
 
   describe('GET /wiki', function () {
