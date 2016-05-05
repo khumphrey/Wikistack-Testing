@@ -19,6 +19,10 @@ describe('http requests', function () {
       .then(() => Page.sync({ force: true }))
   });
 
+  afterEach(function () {
+  	return Page.truncate();
+  });
+
   describe('GET /wiki', function () {
 
     it('responds with 200', function () {

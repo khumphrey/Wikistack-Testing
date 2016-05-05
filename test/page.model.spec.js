@@ -48,8 +48,8 @@ describe('Page model', function () {
     });
 
     afterEach(function () {
-      return Page.sync({ force: true });
-    })
+      return Page.truncate();
+    });
 
     describe('findByTag', function () {
       it('gets pages with the search tag', function () {
@@ -91,7 +91,7 @@ describe('Page model', function () {
     });
 
     afterEach(function () {
-      return Page.sync({ force: true });
+      return Page.truncate();
     });
 
     describe('findSimilar', function () {
